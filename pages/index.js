@@ -5,10 +5,11 @@ import styles from "@/styles/Home.module.css";
 import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import SmallCard from "@/components/SmallCard";
+import MediumCard from "@/components/MediumCard";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home({ exploreData }) {
+export default function Home({ exploreData, cardsData }) {
   return (
     <div className="">
       <Head>
@@ -38,6 +39,18 @@ export default function Home({ exploreData }) {
             ))}
           </div>
         </section>
+
+        <section>
+          <h2 className="text-4xl font-semibold py-8">Live Anywhere</h2>
+
+         <div className="flex space-x-3 overflow-scroll">
+         {cardsData?.map(({img, title}) => (
+            <MediumCard key={img} img={img} title={title}/>
+
+          ))}
+         </div>
+
+        </section>
       </main>
     </div>
   );
@@ -48,9 +61,12 @@ export async function getStaticProps() {
     "https://api.npoint.io/c7c0a1055eaba72194a3"
   ).then((res) => res.json());
 
+  const cardsData = await fetch(" https://api.npoint.io/ed503e73be3415057892").then((res)=> res.json())
+
   return {
     props: {
       exploreData,
+      cardsData
     },
   };
 }
